@@ -28,3 +28,46 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+
+
+def omlet(request):
+    new_data = {}
+    servings = int(request.GET.get('servings', 1))
+    print(servings)
+    data = DATA.get('omlet')
+    for key, value in data.items():
+        new_value = value * servings
+        new_data[key] = new_value
+    context = {
+        'recipe': new_data
+    }
+    # print(context)
+    return render(request, 'calculator/index.html', context)
+
+
+def pasta(request):
+    new_data = {}
+    servings = int(request.GET.get('servings', 1))
+    data = DATA.get('pasta')
+    print(data)
+    for key, value in data.items():
+        new_value = value * servings
+        new_data[key] = new_value
+    context = {
+        'recipe': new_data
+    }
+    return render(request, 'calculator/index.html', context)
+
+
+def buter(request):
+    new_data = {}
+    servings = int(request.GET.get('servings', 1))
+    data = DATA.get('buter')
+    print(data)
+    for key, value in data.items():
+        new_value = value * servings
+        new_data[key] = new_value
+    context = {
+        'recipe': new_data
+    }
+    return render(request, 'calculator/index.html', context)
