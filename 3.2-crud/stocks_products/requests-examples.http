@@ -47,17 +47,17 @@ POST http://localhost:8000/api/v1/stocks/
 Content-Type: application/json
 
 {
-  "address": "туфф",
+  "address": "ггг",
   "positions": [
     {
-      "product": 2,
-      "quantity": 12,
-      "price": 2
+      "product": 1,
+      "quantity": 120,
+      "price": 90
     },
     {
-      "product": 1,
-      "quantity": 140,
-      "price": 160
+      "product": 2,
+      "quantity": 600,
+      "price": 150
     }
   ]
 }
@@ -65,20 +65,21 @@ Content-Type: application/json
 ###
 
 # обновляем записи на складе
-PATCH http://localhost:8000/api/v1/stocks/6/
+PATCH http://localhost:8000/api/v1/stocks/3/
 Content-Type: application/json
 
 {
+  "address": "vvv",
   "positions": [
     {
-      "product": 2,
-      "quantity": 130,
-      "price": 150
+      "product": 1,
+      "quantity": 90,
+      "price": 120
     },
     {
-      "product": 1,
-      "quantity": 140,
-      "price": 220
+      "product": 2,
+      "quantity": 120,
+      "price": 350
     }
   ]
 }
