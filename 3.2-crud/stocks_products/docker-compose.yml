@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+
+  #web:
+    #image: nginx
+    #volumes:
+      #- ./templates:/etc/nginx/templates
+    #ports:
+      #- "8080:80"
+
+  app:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=netology_stocks_products
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - pg
+
+  pg:
+    image: postgres # use latest official postgres version
+    environment:
+      POSTGRES_DB: netology_stocks_products
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+
+volumes:
+  pg-data:
