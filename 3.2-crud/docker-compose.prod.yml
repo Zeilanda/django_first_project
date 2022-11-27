@@ -2,24 +2,31 @@ version: '3.9'
 
 services:
 
-  #web:
-    #image: nginx
-    #volumes:
-      #- ./templates:/etc/nginx/templates
-    #ports:
-      #- "8080:80"
+  nginx:
+    build:
+      context: ./
+      dockerfile: ./nginx/Dockerfile
+    volumes:
+      - static_volume:/stocks_products/staticfiles
+    ports:
+      - "7000:80"
+    depends_on:
+      - app
 
   app:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    build:
+      context: ./stocks_products
+      dockerfile: Dockerfile
+    command: >
+      sh -c 'python manage.py migrate &&
+      gunicorn stocks_products.wsgi:application --bind 0.0.0.0:7000'
     volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
+      - static_volume:/stocks_products/staticfiles
     environment:
       - POSTGRES_NAME=netology_stocks_products
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=pg
     depends_on:
       - pg
 
@@ -29,10 +36,9 @@ services:
       POSTGRES_DB: netology_stocks_products
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
     volumes:
       - pg-data:/var/lib/postgresql/data/ # persist data even if container shuts down
 
 volumes:
   pg-data:
+  static_volume:
